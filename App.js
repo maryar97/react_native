@@ -1,43 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import HomeScreen from './HomeScreen';
+import DetailsScreen from './DetailsScreen';
 
-const ExampleComponent = () => {
-  const [data, setData] = useState(null);
+const Stack = createStackNavigator();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('http://127.0.0.1:8000/api/licences');
-        setData(response.data);
-      } catch (error) {
-        console.error('Erreur lors de la récupération des données :', error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
+const App = () => {
   return (
-    <div>
-      {data ? (
-        <div>
-          <h2>FORMES DE BOXES :</h2>
-          <ul>
-            {data.map((licence) => (
-              <li key={licence.id}>
-                <strong>Nom :</strong> {licence.nom},{' '}
-                <strong>NOm de licence :</strong> {licence.nomlicence}
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : (
-        <p>Chargement en cours...</p>
-      )}
-    </div>
-
-    
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Details" component={DetailsScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
-export default ExampleComponent;
+export default App;
